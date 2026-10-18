@@ -5,7 +5,7 @@ const artifact = {
     material: "Volcanic Glass",
 };
 
-//Object = {key : value} ---> objects are simply key-value pairs
+//Object = {key : value} ---> objects are simply key-value pairsnpn
 
 //How to get all keys at once?
 
