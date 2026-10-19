@@ -102,6 +102,58 @@ function callback2(element, index, array) {
 console.log(nums.MyMap(callback2)); // Output: [3, 6, 9, 12]
 
 // own reduce:
+Array.prototype.myReduce = function (callback3, initialValue) {
+    let accumulator = [];
+    let startIndex;
+    if (arguments.length > 1) accumulator = initialValue, startIndex = 0;
+    else accumulator = this[0] , startIndex = 1;
+    if (this.length === 0 && arguments.length > 1) return accumulator;
+    else if (this.length === 0 && arguments.length < 2) throw new TypeError("error message");
+    for (let i = startIndex; i < this.length; i++) {
+        accumulator = callback3(accumulator, this[i], i, this);
+    }
+    return accumulator;
+};
 
+console.log ([1, 2, 3].myReduce((a, b) => a + b)); // Output: 6
+console.log([1, 2, 3].myReduce((a, b) => a + b, 10)); // Output: 16
+console.log([].myReduce((a, b) => a + b, 10)); // Output: 10
+// console.log([].myReduce((a, b) => a + b)); // Output: TypeError: error message
+console.log([5].myReduce((a, b) => a + b)); // Output: 5
+console.log([2, 4, 6].myReduce((a, b) => a + b, 0)); // Output: 12
 
+// test example for myReduce()
+const dishes = [
+    { name: "Paneer Tikka", spice: "spicy" },
+    { name: "Curd Rice", spice: "mild" },
+    { name: "Chilli Paneer", spice: "spicy" },
+    { name: "Idli", spice: "mild" },
+    { name: "Veg Biryani", spice: "spicy" }
+];
+
+const groupedDishes = dishes.myReduce((accumulator, dish) => {
+    if (dish.spice === "mild") {
+        accumulator.mild.push(dish);
+    } else if (dish.spice === "spicy") {
+        accumulator.spicy.push(dish);
+    }
+
+    return accumulator;
+}, {
+    mild: [],
+    spicy: []
+});
+
+console.log(groupedDishes); /*Output: {
+  mild: [
+    { name: 'Curd Rice', spice: 'mild' },
+    { name: 'Idli', spice: 'mild' }
+  ],
+  spicy: [
+    { name: 'Paneer Tikka', spice: 'spicy' },
+    { name: 'Chilli Paneer', spice: 'spicy' },
+    { name: 'Veg Biryani', spice: 'spicy' }
+  ]
+}
+*/
 
